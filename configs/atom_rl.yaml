@@ -1,0 +1,46 @@
+# title of the experiment
+name: "hydra_test"
+
+
+
+# some hydra related settings
+
+ignore_warnings: True
+work_dir: ${hydra:runtime.cwd}
+data_dir: ${work_dir}/data/
+save_dir: ${work_dir}/logs/${name}/${now:%Y-%m-%d}_${now:%H-%M-%S}
+
+hydra:
+  run:
+    dir: ${save_dir}
+
+
+
+# network params
+graph_input_dim: 18
+graph_feature_dim: 64
+graph_hidden_dims: [128, 128, 128]
+actor_hidden_dims: [128, 128]
+critic_hidden_dims: [128]
+atom_features: ["symbol", "degree"]
+
+# reward what type of atoms?
+rewarding_atom: 'O'
+
+# ppo params
+gamma: 0.99
+gae_lambda: 0.95
+clip_range: 0.2
+entropy_loss_coef: 0.1
+value_loss_coef: 0.2
+
+# opt params
+n_envs: 64
+n_steps: 40
+batch_size: 256
+n_epochs: 10
+learning_rate: 0.001
+max_grad_norm: 0.5
+normalize_advantage: False
+clip_range_vf: 5.0
+total_timesteps: 1
